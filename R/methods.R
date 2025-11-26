@@ -1,0 +1,69 @@
+#' Afficher l'interprétation d'un objet boxplot_context
+#'
+#' @param x Un objet de classe boxplot_context
+#' @param ... Arguments supplémentaires (non utilisés)
+#'
+#' @export
+print.boxplot_context <- function(x, ...) {
+  cat("\n")
+  cat("========================================\n")
+  cat("  ANALYSE BOXPLOT AVEC CONTEXTE LLM\n")
+  cat("========================================\n\n")
+  
+  cat("Variable analysée:", x$y_col, "\n")
+  cat("Variable de groupement:", x$x_col, "\n")
+  cat("Nombre de groupes:", length(x$statistiques$par_groupe), "\n\n")
+  
+  if (!is.null(x$context_description)) {
+    cat("Contexte fourni:\n")
+    cat(strwrap(x$context_description, width = 70, prefix = "  "), sep = "\n")
+    cat("\n\n")
+  }
+  
+  cat("----------------------------------------\n")
+  cat("INTERPRÉTATION GÉNÉRÉE PAR L'IA:\n")
+  cat("----------------------------------------\n\n")
+  
+  # Formatage du paragraphe avec retour à la ligne
+  paragraphe_formate <- strwrap(x$interpretation, width = 70, prefix = "")
+  cat(paragraphe_formate, sep = "\n")
+  cat("\n\n")
+  
+  cat("Utilisez plot() pour visualiser le graphique.\n")
+  cat("\n")
+  
+  invisible(x)
+}
+
+#' Tracer le boxplot d'un objet boxplot_context
+#'
+#' @param x Un objet de classe boxplot_context
+#' @param ... Arguments supplémentaires passés à ggplot2
+#'
+#' @return Un objet ggplot
+#' @export
+plot.boxplot_context <- function(x, ...) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Le package ggplot2 est requis pour cette fonction.")
+  }
+  
+  # Création du graphique de base
+  p <- ggplot2::ggplot(
+    x$data,
+    ggplot2::aes(x = .data[[x$x_col]], y = .data[[x$y_col]])
+  ) +
+    ggplot2::geom_boxplot(fill = "lightblue", alpha = 0.7) +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(
+      title = x$titre,
+      x = x$x_col,
+      y = x$y_col
+    ) +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5, face = "bold", size = 14),
+      axis.title = ggplot2::element_text(size = 12),
+      axis.text = ggplot2::element_text(size = 10)
+    )
+  
+  return(p)
+}

@@ -9,29 +9,29 @@ print.boxplot_context <- function(x, ...) {
   cat("========================================\n")
   cat("  ANALYSE BOXPLOT AVEC CONTEXTE LLM\n")
   cat("========================================\n\n")
-  
+
   cat("Variable analysée:", x$y_col, "\n")
   cat("Variable de groupement:", x$x_col, "\n")
   cat("Nombre de groupes:", length(x$statistiques$par_groupe), "\n\n")
-  
+
   if (!is.null(x$context_description)) {
     cat("Contexte fourni:\n")
     cat(strwrap(x$context_description, width = 70, prefix = "  "), sep = "\n")
     cat("\n\n")
   }
-  
+
   cat("----------------------------------------\n")
   cat("INTERPRÉTATION GÉNÉRÉE PAR L'IA:\n")
   cat("----------------------------------------\n\n")
-  
+
   # Formatage du paragraphe avec retour à la ligne
   paragraphe_formate <- strwrap(x$interpretation, width = 70, prefix = "")
   cat(paragraphe_formate, sep = "\n")
   cat("\n\n")
-  
+
   cat("Utilisez plot() pour visualiser le graphique.\n")
   cat("\n")
-  
+
   invisible(x)
 }
 
@@ -46,7 +46,7 @@ plot.boxplot_context <- function(x, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Le package ggplot2 est requis pour cette fonction.")
   }
-  
+
   # Création du graphique de base
   p <- ggplot2::ggplot(
     x$data,
@@ -64,6 +64,72 @@ plot.boxplot_context <- function(x, ...) {
       axis.title = ggplot2::element_text(size = 12),
       axis.text = ggplot2::element_text(size = 10)
     )
-  
+
   return(p)
 }
+
+print.summary_context <- function(x, ...) {
+
+  cat("\n")
+  cat("                Résumé des variables\n")
+  cat("=====================================================\n")
+
+  # En-tête des variables
+  cat(paste0("\t", paste(x$variables, collapse = "\t\t")), "\n")
+
+  # Types
+  cat(paste0("\t", paste(x$type, collapse = "\t\t")), "\n")
+
+  info_line <- mapply(
+    FUN = function(info, type) {
+
+      if (type %in% c("integer", "numeric")) {
+
+        paste0(
+          "min=", round(info$min, 2), ", ",
+          "max=", round(info$max, 2), ", ",
+          "moy=", round(info$mean, 2), ", ",
+          "med=", round(info$median, 2)
+        )
+
+      } else if (type == "character") {
+
+        paste(info$valeurs, collapse = ", ")
+
+      } else if (type == "logical") {
+
+        paste0(
+          "TRUE=", info$nb_TRUE, ", ",
+          "FALSE=", info$nb_FALSE
+        )
+
+      } else {
+
+        "Type non pris en charge"
+      }
+
+    },
+    info = x$infos,
+    type = x$type,
+    SIMPLIFY = TRUE
+  )
+
+  cat(paste0("\t", paste(info_line, collapse = "\t")), "\n")
+
+  cat("=====================================================\n")
+
+  cat("\n")
+  cat("                   Résumé général\n")
+  cat("=====================================================\n")
+  cat("Données manquantes :", x$nb_na, "\n")
+
+  if (!is.null(x$llm_interpretation)) {
+    cat("Interprétation des variables faite par le LLM :\n")
+    cat(x$llm_interpretation, "\n")
+  } else {
+    cat("Interprétation des variables faite par le LLM : (non disponible)\n")
+  }
+
+  invisible(x)
+}
+

@@ -70,7 +70,7 @@ scatterplot_context <- function(data, x_col, y_col, instruction = NULL,
 	prompt <- construire_prompt_scatter(stats_x, stats_y, cor_xy, x_col, y_col, instruction)
 
 	# Appel au LLM Ollama
-	reponse_llm <- interroger_ollama(prompt, model = model, temperature = temperature, seed = seed)
+	reponse_llm <- interroger_ollama(prompt)
 
 	# Construction de l'objet S3
 	resultat <- list(

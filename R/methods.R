@@ -47,6 +47,12 @@ plot.boxplot_context <- function(x, ...) {
     stop("Le package ggplot2 est requis pour cette fonction.")
   }
 
+  # Vérification du type de la variable de groupement
+  if (!is.factor(x$data[[x$x_col]])) {
+    x$data[[x$x_col]] <- as.factor(x$data[[x$x_col]])
+    warning(paste("La variable", x$x_col, "a été convertie en facteur pour le boxplot."))
+  }
+
   # Création du graphique de base
   p <- ggplot2::ggplot(
     x$data,
@@ -64,6 +70,13 @@ plot.boxplot_context <- function(x, ...) {
       axis.title = ggplot2::element_text(size = 12),
       axis.text = ggplot2::element_text(size = 10)
     )
+
+
+  # Avertissement si moins de 2 groupes
+  if (length(unique(x$data[[x$x_col]])) < 2) {
+    warning("Le boxplot nécessite au moins deux groupes.")
+  }
+
 
   return(p)
 }
@@ -124,8 +137,12 @@ print.summary_context <- function(x, ...) {
   cat("Données manquantes :", x$nb_na, "\n")
 
   if (!is.null(x$llm_interpretation)) {
-    cat("Interprétation des variables faite par le LLM :\n")
-    cat(x$llm_interpretation, "\n")
+    cat("Interprétation des variables faite par le LLM :\n\n")
+
+    paragraphe_formate <- strwrap(x$llm_interpretation$paragraphe, width = 70, prefix = "")
+    cat(paragraphe_formate, sep = "\n")
+    cat("\n\n")
+
   } else {
     cat("Interprétation des variables faite par le LLM : (non disponible)\n")
   }

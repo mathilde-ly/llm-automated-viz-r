@@ -165,7 +165,8 @@ construire_prompt_summary <- function(summary_obj) {
     "2. Décrire les relations potentielles entre les variables.",
     "3. Signaler les problèmes éventuels (valeurs manquantes, distributions suspectes).",
     "",
-    "Réponds en français, de manière claire et concise.",
+    "Réponds en français, de manière claire et concise au format JSON strict suivant:\n",
+    '{"titre": "ton titre", "paragraphe": "ton analyse"}',
     sep = "\n"
   )
 

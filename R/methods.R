@@ -1,3 +1,5 @@
+# ========== METHODES POUR BOXPLOT CONTEXT ==============
+
 #' Afficher l'interprétation d'un objet boxplot_context
 #'
 #' @param x Un objet de classe boxplot_context
@@ -80,6 +82,75 @@ plot.boxplot_context <- function(x, ...) {
 
   return(p)
 }
+
+# ======== METHODES POUR SCATTERPLOT CONTEXT ===================
+
+
+#' Méthode print pour scatterplot_context
+#'
+#' @param x Un objet de classe scatterplot_context
+#' @param ... Arguments supplémentaires (non utilisés)
+#' @export
+print.scatterplot_context <- function(x, ...) {
+  cat("\n")
+  cat("========================================\n")
+  cat("  ANALYSE SCATTERPLOT AVEC CONTEXTE LLM\n")
+  cat("========================================\n\n")
+
+  cat("Variables analysées :", x$x_col, "(X) et", x$y_col, "(Y)\n")
+  cat("Corrélation (Pearson) :", round(x$cor_xy, 3), "\n\n")
+
+  if (!is.null(x$context_description)) {
+    cat("Contexte fourni :\n")
+    cat(strwrap(x$context_description, width = 70, prefix = "  "), sep = "\n")
+    cat("\n\n")
+  }
+
+  cat("----------------------------------------\n")
+  cat("INTERPRÉTATION GÉNÉRÉE PAR L'IA :\n")
+  cat("----------------------------------------\n\n")
+
+  paragraphe_formate <- strwrap(x$interpretation, width = 70, prefix = "")
+  cat(paragraphe_formate, sep = "\n")
+  cat("\n\n")
+
+  cat("Utilisez plot() pour visualiser le graphique.\n")
+  cat("\n")
+  invisible(x)
+}
+
+#' Méthode plot pour scatterplot_context
+#'
+#' @param x Un objet de classe scatterplot_context
+#' @param ... Arguments supplémentaires passés à ggplot2
+#' @return Un objet ggplot
+#' @export
+plot.scatterplot_context <- function(x, ...) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Le package ggplot2 est requis pour cette fonction.")
+  }
+  p <- ggplot2::ggplot(
+    x$data,
+    ggplot2::aes(x = .data[[x$x_col]], y = .data[[x$y_col]])
+  ) +
+    ggplot2::geom_point(color = "lightgreen", alpha = 0.7, size = 2) +
+    ggplot2::geom_smooth(method = "lm", se = FALSE, color = "purple", linetype = "dashed", size = 1) +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(
+      title = x$titre,
+      x = x$x_col,
+      y = x$y_col
+    ) +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5, face = "bold", size = 14),
+      axis.title = ggplot2::element_text(size = 12),
+      axis.text = ggplot2::element_text(size = 10)
+    )
+  return(p)
+}
+
+
+# ======== METHODES POUR SUMMARY CONTEXT ===================
 
 print.summary_context <- function(x, ...) {
 

@@ -1,10 +1,17 @@
 ##' Interroger l'API Ollama
 ##'
+##' Effectue un appel HTTP à l'API locale d'Ollama pour générer une
+##' réponse JSON (titre et paragraphe) à partir d'un `prompt`.
+##' Nécessite qu'Ollama soit démarré et que le modèle choisi soit présent.
+##'
 ##' @param prompt Le prompt à envoyer au modèle.
 ##' @param model Nom du modèle (par défaut "mistral").
 ##' @param endpoint URL de l'API Ollama (par défaut "http://localhost:11434").
 ##'
-##' @return Une liste contenant titre et paragraphe.
+##' @return Une liste contenant `titre` et `paragraphe`.
+##' @details Utilise `httr` pour l'appel HTTP et `jsonlite` pour le parsing.
+##'
+##' @seealso [parser_reponse_llm] pour la gestion du JSON retourné.
 ##' @keywords internal
 interroger_ollama <- function(prompt,
                                model = "mistral",
@@ -62,7 +69,8 @@ interroger_ollama <- function(prompt,
 ##'
 ##' @param reponse_brute Chaîne de caractères JSON retournée par le LLM.
 ##'
-##' @return Une liste avec titre et paragraphe.
+##' @return Une liste avec `titre` et `paragraphe`. Si le JSON est invalide,
+##' renvoie des valeurs par défaut et un avertissement.
 ##' @keywords internal
 parser_reponse_llm <- function(reponse_brute) {
   tryCatch({

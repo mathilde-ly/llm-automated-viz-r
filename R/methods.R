@@ -2,8 +2,21 @@
 
 ##' Afficher l'interprétation d'un objet boxplot_context
 ##'
+##' Affiche le titre généré par le LLM et l'interprétation associée,
+##' ainsi que quelques métadonnées (variables, nombre de groupes).
+##'
 ##' @param x Un objet de classe boxplot_context.
 ##' @param ... Arguments supplémentaires (non utilisés).
+##'
+##' @seealso [boxplot_context] pour créer l'objet et [plot.boxplot_context]
+##' pour le tracé.
+##'
+##' @examples
+##' \dontrun{
+##' data(iris)
+##' bx <- boxplot_context(iris, "Species", "Sepal.Length")
+##' print(bx)
+##' }
 ##'
 ##' @export
 print.boxplot_context <- function(x, ...) {
@@ -43,6 +56,19 @@ print.boxplot_context <- function(x, ...) {
 ##' @param ... Arguments supplémentaires passés à ggplot2.
 ##'
 ##' @return Un objet ggplot.
+##'
+##' @details Nécessite le package `ggplot2`.
+##'
+##' @seealso [boxplot_context] pour construire l'objet et
+##' [print.boxplot_context] pour l'affichage textuel.
+##'
+##' @examples
+##' \dontrun{
+##' data(iris)
+##' bx <- boxplot_context(iris, "Species", "Sepal.Length")
+##' plot(bx)
+##' }
+##'
 ##' @export
 plot.boxplot_context <- function(x, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
@@ -90,6 +116,17 @@ plot.boxplot_context <- function(x, ...) {
 ##'
 ##' @param x Un objet de classe scatterplot_context.
 ##' @param ... Arguments supplémentaires (non utilisés).
+##'
+##' @seealso [scatterplot_context] pour créer l'objet et
+##' [plot.scatterplot_context] pour le tracé.
+##'
+##' @examples
+##' \dontrun{
+##' data(mtcars)
+##' sc <- scatterplot_context(mtcars, "wt", "mpg")
+##' print(sc)
+##' }
+##'
 ##' @export
 print.scatterplot_context <- function(x, ...) {
   cat("\n")
@@ -125,6 +162,19 @@ print.scatterplot_context <- function(x, ...) {
 ##' @param ... Arguments supplémentaires passés à ggplot2.
 ##'
 ##' @return Un objet ggplot.
+##'
+##' @details Nécessite le package `ggplot2`.
+##'
+##' @seealso [scatterplot_context] pour construire l'objet et
+##' [print.scatterplot_context] pour l'affichage.
+##'
+##' @examples
+##' \dontrun{
+##' data(mtcars)
+##' sc <- scatterplot_context(mtcars, "wt", "mpg")
+##' plot(sc)
+##' }
+##'
 ##' @export
 plot.scatterplot_context <- function(x, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
@@ -155,8 +205,21 @@ plot.scatterplot_context <- function(x, ...) {
 
 ##' Afficher le résumé d'un objet summary_context
 ##'
+##' Affiche un tableau synthétique des variables (type et résumé),
+##' le total de données manquantes et, si disponible, l'interprétation
+##' produite par le LLM.
+##'
 ##' @param x Un objet de classe summary_context.
 ##' @param ... Arguments supplémentaires (non utilisés).
+##'
+##' @seealso [summary_context] pour créer l'objet.
+##'
+##' @examples
+##' \dontrun{
+##' data(mtcars)
+##' sm <- summary_context(mtcars)
+##' print(sm)
+##' }
 ##'
 ##' @export
 print.summary_context <- function(x, ...) {

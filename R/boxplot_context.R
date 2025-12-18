@@ -1,11 +1,39 @@
 ##' Créer un boxplot enrichi avec analyse LLM
 ##'
+##' Cette fonction construit un objet `boxplot_context` à partir d'un jeu
+##' de données, calcule des statistiques descriptives par groupe puis
+##' interroge un LLM (via Ollama) pour proposer un titre et une
+##' interprétation du graphique. La colonne de groupement est convertie
+##' automatiquement en facteur si nécessaire et un avertissement est
+##' émis lorsque certains groupes ont moins de 3 observations.
+##'
 ##' @param data Un data.frame contenant les données.
 ##' @param x_col Nom de la colonne catégorielle (variable explicative).
 ##' @param y_col Nom de la colonne numérique (variable expliquée).
 ##' @param instruction Contexte optionnel pour l'analyse (NULL par défaut).
 ##'
-##' @return Un objet de classe boxplot_context.
+##' @return Un objet de classe `boxplot_context` contenant les données,
+##' les statistiques, le titre et l'interprétation générés.
+##'
+##' @details
+##' - Valide que `data` est un `data.frame`, que `x_col` et `y_col` existent,
+##'   et que `y_col` est numérique.
+##' - Supprime les `NA` de la colonne numérique avant calculs.
+##' - Convertit `x_col` en facteur si nécessaire pour un tracé correct.
+##' - Appelle `interroger_ollama()` (serveur Ollama requis).
+##'
+##' @seealso [plot.boxplot_context] pour le tracé et [print.boxplot_context]
+##' pour l'affichage textuel.
+##'
+##' @examples
+##' \dontrun{
+##' # Exemple basique avec iris
+##' data(iris)
+##' bx <- boxplot_context(iris, x_col = "Species", y_col = "Sepal.Length")
+##' print(bx)
+##' plot(bx)
+##' }
+##'
 ##' @export
 boxplot_context <- function(data, x_col, y_col, instruction = NULL) {
   # Validation des entrées
@@ -74,7 +102,8 @@ boxplot_context <- function(data, x_col, y_col, instruction = NULL) {
 ##' @param x_col Nom de la colonne de groupement.
 ##' @param y_col Nom de la colonne numérique.
 ##'
-##' @return Une liste contenant les statistiques par groupe.
+##' @return Une liste contenant les statistiques par groupe (min, quartiles,
+##' médiane, moyenne, max, écart-type et effectifs).
 ##' @keywords internal
 calculer_statistiques <- function(data, x_col, y_col) {
   # Statistiques globales

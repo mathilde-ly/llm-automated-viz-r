@@ -1,5 +1,5 @@
 # exemple d'utilisation du package
-library(lamaplot.context)
+library(lamaplotcontext)
 
 # --- TESTEZ VOTRE CONNEXION A OLLAMA ---
 

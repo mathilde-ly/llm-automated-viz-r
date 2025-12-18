@@ -1,8 +1,29 @@
 ##' Créer un summary contextualisé avec analyse LLM
 ##'
+##' Génère un objet `summary_context` qui résume chaque variable d'un
+##' `data.frame` (statistiques pour numériques, modalités pour caractères,
+##' comptages pour logiques), puis interroge un LLM (via Ollama) pour
+##' fournir un titre et une interprétation globale du jeu de données.
+##'
 ##' @param data Un data.frame contenant les données.
 ##'
-##' @return Un objet de classe summary_context.
+##' @return Un objet de classe `summary_context` contenant les informations
+##' par variable, le nombre de `NA` et l'interprétation du LLM.
+##'
+##' @details
+##' - Détecte le type des variables via `get_variable_type()`.
+##' - Calcule des résumés adaptés au type.
+##' - Appelle `interroger_ollama()` (serveur Ollama requis).
+##'
+##' @seealso [print.summary_context] pour l'affichage textuel.
+##'
+##' @examples
+##' \dontrun{
+##' data(mtcars)
+##' sm <- summary_context(mtcars)
+##' print(sm)
+##' }
+##'
 ##' @export
 
 summary_context <- function(data) {
@@ -79,7 +100,8 @@ summary_context <- function(data) {
 ##'
 ##' @param x une variable.
 ##'
-##' @return Une liste contenant les statistiques par groupe.
+##' @return Un libellé de type pour la variable (`integer`, `numeric`,
+##' `character`, `logical` ou première classe).
 ##' @keywords internal
 get_variable_type <- function(x) {
   if (is.integer(x)) {

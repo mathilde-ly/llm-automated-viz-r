@@ -201,8 +201,6 @@ plot.scatterplot_context <- function(x, ...) {
 }
 
 
-## ======== METHODES POUR SUMMARY CONTEXT ===================
-
 ##' Afficher le résumé d'un objet summary_context
 ##'
 ##' Affiche un tableau synthétique des variables (type et résumé),
@@ -214,13 +212,6 @@ plot.scatterplot_context <- function(x, ...) {
 ##'
 ##' @seealso [summary_context] pour créer l'objet.
 ##'
-##' @examples
-##' \dontrun{
-##' data(mtcars)
-##' sm <- summary_context(mtcars)
-##' print(sm)
-##' }
-##'
 ##' @export
 print.summary_context <- function(x, ...) {
 
@@ -228,47 +219,53 @@ print.summary_context <- function(x, ...) {
   cat("                        Résumé des variables\n")
   cat("======================================================================\n")
 
-  # En-tête des variables
-  cat(paste0("\t", paste(x$variables, collapse = "\t\t")), "\n")
+  # 1. Configuration de la largeur des colonnes
+  # On définit une largeur fixe pour chaque colonne (ex: 18 caractères)
+  col_width <- 18
 
-  # Types
-  cat(paste0("\t", paste(x$type, collapse = "\t\t")), "\n")
+  # 2. Préparation des données ligne par ligne
+  # On transforme les listes d'infos en un format "grille" (4 lignes max par variable)
 
-  info_line <- mapply(
-    FUN = function(info, type) {
+  info_grille <- mapply(FUN = function(info, type) {
+    if (type %in% c("integer", "numeric")) {
+      res <- c(
+        paste0("min=", round(info$min, 2)),
+        paste0("max=", round(info$max, 2)),
+        paste0("moy=", round(info$mean, 2)),
+        paste0("med=", round(info$median, 2))
+      )
+    } else if (type == "character" || type == "factor") {
+      # On prend les premières valeurs pour ne pas déborder verticalement
+      vals <- paste(info$valeurs, collapse = ", ")
+      # On tronque si c'est trop long pour l'esthétique
+      if(nchar(vals) > col_width - 2) vals <- paste0(substr(vals, 1, col_width - 5), "...")
+      res <- c(vals, "", "", "")
+    } else if (type == "logical") {
+      res <- c(
+        paste0("TRUE=", info$nb_TRUE),
+        paste0("FALSE=", info$nb_FALSE),
+        "", ""
+      )
+    } else {
+      res <- c("Non supporté", "", "", "")
+    }
+    return(res)
+  }, info = x$infos, type = x$type, SIMPLIFY = FALSE)
 
-      if (type %in% c("integer", "numeric")) {
+  # 3. Affichage de l'en-tête (Noms des variables)
+  # format() garantit que chaque nom occupe exactement col_width espaces
+  cat(paste(format(x$variables, width = col_width), collapse = ""), "\n")
 
-        paste0(
-          "min=", round(info$min, 2), ", \n",
-          "max=", round(info$max, 2), ", \n",
-          "moy=", round(info$mean, 2), ", \n",
-          "med=", round(info$median, 2)
-        )
+  # 4. Affichage des types
+  cat(paste(format(paste0("(", x$type, ")"), width = col_width), collapse = ""), "\n\n")
 
-      } else if (type == "character") {
-
-        paste(info$valeurs, collapse = ", \n")
-
-      } else if (type == "logical") {
-
-        paste0(
-          "TRUE=", info$nb_TRUE, ", \n",
-          "FALSE=", info$nb_FALSE
-        )
-
-      } else {
-
-        "Type non pris en charge"
-      }
-
-    },
-    info = x$infos,
-    type = x$type,
-    SIMPLIFY = TRUE
-  )
-
-  cat(paste0("\t", paste(info_line, collapse = "\t")), "\n")
+  # 5. Affichage des 4 lignes de statistiques
+  for (i in 1:4) {
+    # On extrait la i-ème ligne de chaque variable
+    ligne_stats <- sapply(info_grille, function(v) v[i])
+    # On l'affiche avec le bon espacement
+    cat(paste(format(ligne_stats, width = col_width), collapse = ""), "\n")
+  }
 
   cat("======================================================================\n")
 
@@ -276,18 +273,21 @@ print.summary_context <- function(x, ...) {
   cat("                        Résumé général\n")
   cat("======================================================================\n")
   cat("Données manquantes :", x$nb_na, "\n")
+  cat("----------------------------------------------------------------------\n")
 
   if (!is.null(x$llm_interpretation)) {
     cat("Interprétation des variables faite par le LLM :\n\n")
 
-    paragraphe_formate <- strwrap(x$llm_interpretation$paragraphe, width = 70, prefix = "")
+    # strwrap découpe proprement le texte pour qu'il ne dépasse pas 70 caractères
+    paragraphe_formate <- strwrap(x$llm_interpretation$paragraphe, width = 70)
     cat(paragraphe_formate, sep = "\n")
-    cat("\n\n")
+    cat("\n")
 
   } else {
     cat("Interprétation des variables faite par le LLM : (non disponible)\n")
   }
 
+  cat("======================================================================\n")
+
   invisible(x)
 }
-

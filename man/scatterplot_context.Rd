@@ -22,6 +22,12 @@ scatterplot_context(
 \item{y_col}{Nom de la colonne numérique en ordonnée.}
 
 \item{instruction}{Contexte optionnel pour l'analyse (NULL par défaut).}
+
+\item{model}{Modèle LLM utilisé pour générer le contexte.}
+
+\item{temperature}{Température utilisée pour la génération du texte.}
+
+\item{seed}{Graine aléatoire pour la reproductibilité.}
 }
 \value{
 Un objet de classe scatterplot_context.

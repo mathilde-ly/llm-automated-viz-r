@@ -1,17 +1,17 @@
-Package: ggplot.context
+Package: lamaplot.context
 Type: Package
-Title: What the Package Does (Title Case)
+Title: LamaPlotContext for enhanced graphs and data analysis
 Version: 0.1.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
-      role = c("aut", "cre")
+      "Mathilde", "Lafay"
+    ),
+    person(
+      "Clara", "Noel"
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+Description: LamaPlotContext est un package R permettant de générer des visualisations et analyses enrichies (boxplot, scatterplot, summary) avec interprétation automatique par un LLM local (Ollama). Il facilite l'analyse statistique et la compréhension des données grâce à des résumés et commentaires générés automatiquement.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:

@@ -1,4 +1,4 @@
-Package: lamaplot.context
+Package: lamaplotcontext
 Type: Package
 Title: LamaPlotContext for enhanced graphs and data analysis
 Version: 0.1.0

@@ -26,13 +26,12 @@ au bon fonctionnement du package.
 
 ### Depuis une archive ZIP (lamaplotcontext.zip)
 
-1. Téléchargez le fichier `lamaplotcontext.zip` et placez-le sur votre ordinateur (par exemple sur le Bureau).
+1. Téléchargez le fichier `lamaplotcontext_0.1.0.tar.gz` et placez-le sur votre ordinateur (par exemple sur le Bureau).
 2. Dans R ou RStudio, installez le package avec la commande suivante (en adaptant le chemin) :
 
 ```r
-install.packages("C:/Users/votre_nom/Bureau/lamaplotcontext.zip", repos = NULL, type = "source")
+install.packages("C:/Users/votre_nom/Bureau/lamaplotcontext_0.1.0.tar.gz", repos = NULL, type = "source")
 ```
-2.bis Ou bien dans RStudio, allez dans l'onglet Tools->install Packages -> Install from: Package Archive File (.zip; .tar.gz) et sélectionnez le fichier `lamaplotcontext.zip`.
 
 Le package sera alors disponible comme n'importe quel package R, vous pourrez l'utiliser dans votre environnement à
 l'aide de la commande `library(lamaplot.context)`.

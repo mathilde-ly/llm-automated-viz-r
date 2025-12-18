@@ -1,6 +1,11 @@
 
 ##' Créer un scatterplot enrichi avec analyse LLM
 ##'
+##' Construit un objet `scatterplot_context` à partir de deux variables
+##' numériques (X et Y), calcule des résumés statistiques et la corrélation
+##' de Pearson, puis interroge un LLM (via Ollama) pour proposer un titre
+##' et une interprétation du nuage de points.
+##'
 ##' @param data Un data.frame contenant les données.
 ##' @param x_col Nom de la colonne numérique en abscisse.
 ##' @param y_col Nom de la colonne numérique en ordonnée.
@@ -9,7 +14,27 @@
 ##' @param temperature Température utilisée pour la génération du texte.
 ##' @param seed Graine aléatoire pour la reproductibilité.
 ##'
-##' @return Un objet de classe scatterplot_context.
+##' @return Un objet de classe `scatterplot_context` avec statistiques,
+##' corrélation, titre et interprétation.
+##'
+##' @details
+##' - Valide que `x_col` et `y_col` sont numériques et présents.
+##' - Supprime les observations avec `NA` sur X ou Y.
+##' - Calcule `cor()` avec `use = "complete.obs"`.
+##' - Appelle `interroger_ollama()` (serveur Ollama requis).
+##'
+##' @seealso [plot.scatterplot_context] pour le tracé et
+##' [print.scatterplot_context] pour l'affichage textuel.
+##'
+##' @examples
+##' \dontrun{
+##' # Exemple avec mtcars
+##' data(mtcars)
+##' sc <- scatterplot_context(mtcars, x_col = "wt", y_col = "mpg")
+##' print(sc)
+##' plot(sc)
+##' }
+##'
 ##' @export
 scatterplot_context <- function(data, x_col, y_col, instruction = NULL,
 							   model = "mistral", temperature = NULL, seed = NULL) {

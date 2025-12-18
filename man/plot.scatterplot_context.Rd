@@ -17,3 +17,18 @@ Un objet ggplot.
 \description{
 Méthode plot pour scatterplot_context
 }
+\details{
+Nécessite le package `ggplot2`.
+}
+\examples{
+\dontrun{
+data(mtcars)
+sc <- scatterplot_context(mtcars, "wt", "mpg")
+plot(sc)
+}
+
+}
+\seealso{
+[scatterplot_context] pour construire l'objet et
+[print.scatterplot_context] pour l'affichage.
+}

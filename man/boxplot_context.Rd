@@ -16,8 +16,35 @@ boxplot_context(data, x_col, y_col, instruction = NULL)
 \item{instruction}{Contexte optionnel pour l'analyse (NULL par défaut).}
 }
 \value{
-Un objet de classe boxplot_context.
+Un objet de classe `boxplot_context` contenant les données,
+les statistiques, le titre et l'interprétation générés.
 }
 \description{
-Créer un boxplot enrichi avec analyse LLM
+Cette fonction construit un objet `boxplot_context` à partir d'un jeu
+de données, calcule des statistiques descriptives par groupe puis
+interroge un LLM (via Ollama) pour proposer un titre et une
+interprétation du graphique. La colonne de groupement est convertie
+automatiquement en facteur si nécessaire et un avertissement est
+émis lorsque certains groupes ont moins de 3 observations.
+}
+\details{
+- Valide que `data` est un `data.frame`, que `x_col` et `y_col` existent,
+  et que `y_col` est numérique.
+- Supprime les `NA` de la colonne numérique avant calculs.
+- Convertit `x_col` en facteur si nécessaire pour un tracé correct.
+- Appelle `interroger_ollama()` (serveur Ollama requis).
+}
+\examples{
+\dontrun{
+# Exemple basique avec iris
+data(iris)
+bx <- boxplot_context(iris, x_col = "Species", y_col = "Sepal.Length")
+print(bx)
+plot(bx)
+}
+
+}
+\seealso{
+[plot.boxplot_context] pour le tracé et [print.boxplot_context]
+pour l'affichage textuel.
 }

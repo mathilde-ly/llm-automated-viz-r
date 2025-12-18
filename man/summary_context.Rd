@@ -10,8 +10,28 @@ summary_context(data)
 \item{data}{Un data.frame contenant les données.}
 }
 \value{
-Un objet de classe summary_context.
+Un objet de classe `summary_context` contenant les informations
+par variable, le nombre de `NA` et l'interprétation du LLM.
 }
 \description{
-Créer un summary contextualisé avec analyse LLM
+Génère un objet `summary_context` qui résume chaque variable d'un
+`data.frame` (statistiques pour numériques, modalités pour caractères,
+comptages pour logiques), puis interroge un LLM (via Ollama) pour
+fournir un titre et une interprétation globale du jeu de données.
+}
+\details{
+- Détecte le type des variables via `get_variable_type()`.
+- Calcule des résumés adaptés au type.
+- Appelle `interroger_ollama()` (serveur Ollama requis).
+}
+\examples{
+\dontrun{
+data(mtcars)
+sm <- summary_context(mtcars)
+print(sm)
+}
+
+}
+\seealso{
+[print.summary_context] pour l'affichage textuel.
 }

@@ -17,3 +17,18 @@ Un objet ggplot.
 \description{
 Tracer le boxplot d'un objet boxplot_context
 }
+\details{
+Nécessite le package `ggplot2`.
+}
+\examples{
+\dontrun{
+data(iris)
+bx <- boxplot_context(iris, "Species", "Sepal.Length")
+plot(bx)
+}
+
+}
+\seealso{
+[boxplot_context] pour construire l'objet et
+[print.boxplot_context] pour l'affichage textuel.
+}

@@ -14,3 +14,15 @@
 \description{
 Méthode print pour scatterplot_context
 }
+\examples{
+\dontrun{
+data(mtcars)
+sc <- scatterplot_context(mtcars, "wt", "mpg")
+print(sc)
+}
+
+}
+\seealso{
+[scatterplot_context] pour créer l'objet et
+[plot.scatterplot_context] pour le tracé.
+}

@@ -12,5 +12,18 @@
 \item{...}{Arguments supplémentaires (non utilisés).}
 }
 \description{
-Afficher l'interprétation d'un objet boxplot_context
+Affiche le titre généré par le LLM et l'interprétation associée,
+ainsi que quelques métadonnées (variables, nombre de groupes).
+}
+\examples{
+\dontrun{
+data(iris)
+bx <- boxplot_context(iris, "Species", "Sepal.Length")
+print(bx)
+}
+
+}
+\seealso{
+[boxplot_context] pour créer l'objet et [plot.boxplot_context]
+pour le tracé.
 }

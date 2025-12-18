@@ -14,7 +14,8 @@ calculer_statistiques(data, x_col, y_col)
 \item{y_col}{Nom de la colonne numérique.}
 }
 \value{
-Une liste contenant les statistiques par groupe.
+Une liste contenant les statistiques par groupe (min, quartiles,
+médiane, moyenne, max, écart-type et effectifs).
 }
 \description{
 Calculer les statistiques descriptives par groupe

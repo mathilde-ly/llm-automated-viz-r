@@ -10,7 +10,8 @@ get_variable_type(x)
 \item{x}{une variable.}
 }
 \value{
-Une liste contenant les statistiques par groupe.
+Un libellé de type pour la variable (`integer`, `numeric`,
+`character`, `logical` ou première classe).
 }
 \description{
 Identifier le type de la variable

@@ -18,9 +18,17 @@ interroger_ollama(
 \item{endpoint}{URL de l'API Ollama (par défaut "http://localhost:11434").}
 }
 \value{
-Une liste contenant titre et paragraphe.
+Une liste contenant `titre` et `paragraphe`.
 }
 \description{
-Interroger l'API Ollama
+Effectue un appel HTTP à l'API locale d'Ollama pour générer une
+réponse JSON (titre et paragraphe) à partir d'un `prompt`.
+Nécessite qu'Ollama soit démarré et que le modèle choisi soit présent.
+}
+\details{
+Utilise `httr` pour l'appel HTTP et `jsonlite` pour le parsing.
+}
+\seealso{
+[parser_reponse_llm] pour la gestion du JSON retourné.
 }
 \keyword{internal}

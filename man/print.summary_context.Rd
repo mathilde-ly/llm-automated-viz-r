@@ -12,5 +12,18 @@
 \item{...}{Arguments supplémentaires (non utilisés).}
 }
 \description{
-Afficher le résumé d'un objet summary_context
+Affiche un tableau synthétique des variables (type et résumé),
+le total de données manquantes et, si disponible, l'interprétation
+produite par le LLM.
+}
+\examples{
+\dontrun{
+data(mtcars)
+sm <- summary_context(mtcars)
+print(sm)
+}
+
+}
+\seealso{
+[summary_context] pour créer l'objet.
 }

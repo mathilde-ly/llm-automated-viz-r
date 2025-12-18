@@ -10,7 +10,8 @@ parser_reponse_llm(reponse_brute)
 \item{reponse_brute}{Chaîne de caractères JSON retournée par le LLM.}
 }
 \value{
-Une liste avec titre et paragraphe.
+Une liste avec `titre` et `paragraphe`. Si le JSON est invalide,
+renvoie des valeurs par défaut et un avertissement.
 }
 \description{
 Parser la réponse du LLM

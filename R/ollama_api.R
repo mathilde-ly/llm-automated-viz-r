@@ -6,13 +6,13 @@
 #'
 #' @return Une liste contenant titre et paragraphe
 #' @keywords internal
-interroger_ollama <- function(prompt, 
+interroger_ollama <- function(prompt,
                                model = "mistral",
                                endpoint = "http://localhost:11434") {
-  
+
   # Construction de l'URL complète
   url <- paste0(endpoint, "/api/generate")
-  
+
   # Préparation du corps de la requête
   body <- list(
     model = model,
@@ -20,7 +20,7 @@ interroger_ollama <- function(prompt,
     stream = FALSE,
     format = "json"
   )
-  
+
   # Appel à l'API avec gestion d'erreur
   tryCatch({
     response <- httr::POST(
@@ -29,7 +29,7 @@ interroger_ollama <- function(prompt,
       httr::content_type_json(),
       httr::timeout(120)
     )
-    
+
     # Vérification du statut HTTP
     if (httr::http_error(response)) {
       stop(paste(
@@ -39,21 +39,21 @@ interroger_ollama <- function(prompt,
         httr::content(response, as = "text", encoding = "UTF-8")
       ))
     }
-    
+
     # Extraction et parsing de la réponse
     contenu <- httr::content(response, as = "text", encoding = "UTF-8")
     reponse_json <- jsonlite::fromJSON(contenu)
-    
+
     # Parsing de la réponse générée
     reponse_llm <- parser_reponse_llm(reponse_json$response)
-    
+
     return(reponse_llm)
-    
+
   }, error = function(e) {
     stop(paste(
-      "Impossible de contacter Ollama:",
+      "Impossible de contacter Ollama :c",
       e$message,
-      "\nVérifiez qu'Ollama est démarré et que le modèle mistral est disponible."
+      "\nVérifiez qu'Ollama est démarré et que le modèle mistral est disponible sur le port 11434.\nSi l'erreur persiste, redémarrez votre session R et croisez les doigts."
     ))
   })
 }
@@ -68,17 +68,17 @@ parser_reponse_llm <- function(reponse_brute) {
   tryCatch({
     # Tentative de parsing JSON direct
     parsed <- jsonlite::fromJSON(reponse_brute)
-    
+
     # Validation de la structure
     if (!all(c("titre", "paragraphe") %in% names(parsed))) {
       stop("Structure JSON invalide")
     }
-    
+
     return(list(
       titre = as.character(parsed$titre),
       paragraphe = as.character(parsed$paragraphe)
     ))
-    
+
   }, error = function(e) {
     # Fallback en cas d'erreur de parsing
     warning("Le LLM n'a pas retourné un JSON valide. Utilisation de valeurs par défaut.")

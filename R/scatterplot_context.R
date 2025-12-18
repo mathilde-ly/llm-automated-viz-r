@@ -1,13 +1,13 @@
 
-#' Créer un scatterplot enrichi avec analyse LLM
-#'
-#' @param data Un data.frame contenant les données
-#' @param x_col Nom de la colonne numérique en abscisse
-#' @param y_col Nom de la colonne numérique en ordonnée
-#' @param context_description Contexte optionnel pour l'analyse (NULL par défaut)
-#'
-#' @return Un objet de classe scatterplot_context
-#' @export
+##' Créer un scatterplot enrichi avec analyse LLM
+##'
+##' @param data Un data.frame contenant les données.
+##' @param x_col Nom de la colonne numérique en abscisse.
+##' @param y_col Nom de la colonne numérique en ordonnée.
+##' @param context_description Contexte optionnel pour l'analyse (NULL par défaut).
+##'
+##' @return Un objet de classe scatterplot_context.
+##' @export
 scatterplot_context <- function(data, x_col, y_col, context_description = NULL) {
 	# Validation des entrées
 	if (!is.data.frame(data)) {
@@ -59,17 +59,17 @@ scatterplot_context <- function(data, x_col, y_col, context_description = NULL) 
 	return(resultat)
 }
 
-#' Construire le prompt pour le LLM (scatterplot)
-#'
-#' @param stats_x Résumé statistique de x
-#' @param stats_y Résumé statistique de y
-#' @param cor_xy Corrélation entre x et y
-#' @param x_col Nom de la variable x
-#' @param y_col Nom de la variable y
-#' @param context_description Contexte optionnel fourni par l'utilisateur
-#'
-#' @return Une chaîne de caractères contenant le prompt
-#' @keywords internal
+##' Construire le prompt pour le LLM (scatterplot)
+##'
+##' @param stats_x Résumé statistique de x.
+##' @param stats_y Résumé statistique de y.
+##' @param cor_xy Corrélation entre x et y.
+##' @param x_col Nom de la variable x.
+##' @param y_col Nom de la variable y.
+##' @param context_description Contexte optionnel fourni par l'utilisateur.
+##'
+##' @return Une chaîne de caractères contenant le prompt.
+##' @keywords internal
 construire_prompt_scatter <- function(stats_x, stats_y, cor_xy, x_col, y_col, context_description) {
 	resume_stats <- paste0(
 		"Statistiques descriptives :\n",

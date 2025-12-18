@@ -1,9 +1,9 @@
-#' Créer un summary contextualisé avec analyse LLM
-#'
-#' @param data Un data.frame contenant les données
-#'
-#' @return Un objet de classe summary_context
-#' @export
+##' Créer un summary contextualisé avec analyse LLM
+##'
+##' @param data Un data.frame contenant les données.
+##'
+##' @return Un objet de classe summary_context.
+##' @export
 
 summary_context <- function(data) {
   # Validation du format de l'entrée
@@ -75,12 +75,12 @@ summary_context <- function(data) {
   return(resultat)
 }
 
-#' Identifier le type de la variable
-#'
-#' @param x une variable
-#'
-#' @return Une liste contenant les statistiques par groupe
-#' @keywords internal
+##' Identifier le type de la variable
+##'
+##' @param x une variable.
+##'
+##' @return Une liste contenant les statistiques par groupe.
+##' @keywords internal
 get_variable_type <- function(x) {
   if (is.integer(x)) {
     "integer"
@@ -95,12 +95,12 @@ get_variable_type <- function(x) {
   }
 }
 
-#' Construire le prompt pour le LLM
-#'
-#' @param summary_obj Un objet de la classe summary_context
-#'
-#' @return Une chaîne de caractères contenant le prompt
-#' @keywords internal
+##' Construire le prompt pour le LLM
+##'
+##' @param summary_obj Un objet de la classe summary_context.
+##'
+##' @return Une chaîne de caractères contenant le prompt.
+##' @keywords internal
 
 construire_prompt_summary <- function(summary_obj) {
 

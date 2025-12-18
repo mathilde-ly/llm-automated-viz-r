@@ -1,12 +1,12 @@
-#' Créer un boxplot enrichi avec analyse LLM
-#'
-#' @param data Un data.frame contenant les données
-#' @param x_col Nom de la colonne catégorielle (variable explicative)
-#' @param y_col Nom de la colonne numérique (variable à analyser)
-#' @param context_description Contexte optionnel pour l'analyse (NULL par défaut)
-#'
-#' @return Un objet de classe boxplot_context
-#' @export
+##' Créer un boxplot enrichi avec analyse LLM
+##'
+##' @param data Un data.frame contenant les données.
+##' @param x_col Nom de la colonne catégorielle (variable explicative).
+##' @param y_col Nom de la colonne numérique (variable expliquée).
+##' @param context_description Contexte optionnel pour l'analyse (NULL par défaut).
+##'
+##' @return Un objet de classe boxplot_context.
+##' @export
 boxplot_context <- function(data, x_col, y_col, context_description = NULL) {
   # Validation des entrées
   if (!is.data.frame(data)) {
@@ -21,28 +21,36 @@ boxplot_context <- function(data, x_col, y_col, context_description = NULL) {
     stop(paste("La colonne", y_col, "n'existe pas dans les données"))
   }
 
+  # Nettoyage des NA dans la colonne numérique
+  data <- data[!is.na(data[[y_col]]), ]
+  if (nrow(data) == 0) {
+    stop("Aucune donnée exploitable après suppression des NA dans la colonne numérique.")
+  }
+
+  # Conversion automatique de la colonne de groupement en facteur si nécessaire
+  if (!is.factor(data[[x_col]])) {
+    data[[x_col]] <- as.factor(data[[x_col]])
+    warning(paste("La variable", x_col, "a été convertie en facteur pour le boxplot."))
+  }
+
   if (!is.numeric(data[[y_col]])) {
-    stop(paste("La colonne", y_col, "doit être numérique"))
+    stop(paste("La colonne", y_col, "doit être numérique."))
   }
 
   # Calcul des statistiques descriptives
   stats_summary <- calculer_statistiques(data, x_col, y_col)
+
+  # Avertissement pour groupes avec peu d'observations
+  groupes_faibles <- names(stats_summary$par_groupe)[sapply(stats_summary$par_groupe, function(g) g$n < 3)]
+  if (length(groupes_faibles) > 0) {
+    warning(paste("Certains groupes ont moins de 3 valeurs :", paste(groupes_faibles, collapse = ", "), ". Statistiques peu fiables."))
+  }
 
   # Construction du prompt pour le LLM
   prompt <- construire_prompt(stats_summary, x_col, y_col, context_description)
 
   # Appel au LLM Ollama
   reponse_llm <- interroger_ollama(prompt)
-
-  # Création du boxplot avec titre et légende générés
-  formule <- as.formula(paste(y_col, "~", x_col))
-  boxplot(
-    formule,
-    data = data,
-    main = reponse_llm$titre,
-    ylab = reponse_llm$paragraphe,
-    col = "lightblue"
-  )
 
   # Construction de l'objet S3
   resultat <- list(
@@ -56,19 +64,18 @@ boxplot_context <- function(data, x_col, y_col, context_description = NULL) {
   )
 
   class(resultat) <- "boxplot_context"
-  plot(resultat)
-  print(resultat)
+
   return(resultat)
 }
 
-#' Calculer les statistiques descriptives par groupe
-#'
-#' @param data Un data.frame
-#' @param x_col Nom de la colonne de groupement
-#' @param y_col Nom de la colonne numérique
-#'
-#' @return Une liste contenant les statistiques par groupe
-#' @keywords internal
+##' Calculer les statistiques descriptives par groupe
+##'
+##' @param data Le data.frame des données à plot.
+##' @param x_col Nom de la colonne de groupement.
+##' @param y_col Nom de la colonne numérique.
+##'
+##' @return Une liste contenant les statistiques par groupe.
+##' @keywords internal
 calculer_statistiques <- function(data, x_col, y_col) {
   # Statistiques globales
   stats_globales <- summary(data[[y_col]])
@@ -114,15 +121,15 @@ calculer_statistiques <- function(data, x_col, y_col) {
   ))
 }
 
-#' Construire le prompt pour le LLM
-#'
-#' @param stats_summary Liste des statistiques calculées
-#' @param x_col Nom de la variable explicative
-#' @param y_col Nom de la variable à analyser
-#' @param context_description Contexte optionnel
-#'
-#' @return Une chaîne de caractères contenant le prompt
-#' @keywords internal
+##' Construire le prompt pour le LLM
+##'
+##' @param stats_summary Liste des statistiques calculées.
+##' @param x_col Nom de la variable explicative.
+##' @param y_col Nom de la variable expliquée.
+##' @param context_description Contexte optionnel fourni par l'utilisateur (str).
+##'
+##' @return Une chaîne de caractères contenant le prompt.
+##' @keywords internal
 construire_prompt <- function(stats_summary, x_col, y_col, context_description) {
   # Construction du résumé statistique textuel
   resume_stats <- paste0(
@@ -149,7 +156,7 @@ construire_prompt <- function(stats_summary, x_col, y_col, context_description) 
   if (is.null(context_description)) {
     prompt <- paste0(
       resume_stats,
-      "En te basant uniquement sur ces statistiques, génère:\n",
+      "En te basant uniquement sur ces statistiques, en français, génère:\n",
       "1. Un titre court et informatif pour le graphique (maximum 10 mots)\n",
       "2. Un paragraphe d'analyse statistique objective (3-4 phrases) décrivant ",
       "les différences entre groupes, la dispersion des données et les tendances observées.\n\n",

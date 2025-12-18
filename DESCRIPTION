@@ -2,14 +2,11 @@ Package: lamaplot.context
 Type: Package
 Title: LamaPlotContext for enhanced graphs and data analysis
 Version: 0.1.0
-Authors@R: c(
-    person(
-      "Mathilde", "Lafay"
-    ),
-    person(
-      "Clara", "Noel"
+Authors@R: 
+    c(
+      person("Mathilde", "Lafay", email = "mathildelafay.v1@gmail.com", role = c("aut", "cre")),
+      person("Clara", "Noël", email = "clara.noel.2@ulaval.ca", role = "aut")
     )
-  )
 Description: LamaPlotContext est un package R permettant de générer des visualisations et analyses enrichies (boxplot, scatterplot, summary) avec interprétation automatique par un LLM local (Ollama). Il facilite l'analyse statistique et la compréhension des données grâce à des résumés et commentaires générés automatiquement.
 License: GPL-3
 Encoding: UTF-8

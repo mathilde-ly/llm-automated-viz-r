@@ -225,8 +225,8 @@ plot.scatterplot_context <- function(x, ...) {
 print.summary_context <- function(x, ...) {
 
   cat("\n")
-  cat("                Résumé des variables\n")
-  cat("=====================================================\n")
+  cat("                        Résumé des variables\n")
+  cat("======================================================================\n")
 
   # En-tête des variables
   cat(paste0("\t", paste(x$variables, collapse = "\t\t")), "\n")
@@ -240,20 +240,20 @@ print.summary_context <- function(x, ...) {
       if (type %in% c("integer", "numeric")) {
 
         paste0(
-          "min=", round(info$min, 2), ", ",
-          "max=", round(info$max, 2), ", ",
-          "moy=", round(info$mean, 2), ", ",
+          "min=", round(info$min, 2), ", \n",
+          "max=", round(info$max, 2), ", \n",
+          "moy=", round(info$mean, 2), ", \n",
           "med=", round(info$median, 2)
         )
 
       } else if (type == "character") {
 
-        paste(info$valeurs, collapse = ", ")
+        paste(info$valeurs, collapse = ", \n")
 
       } else if (type == "logical") {
 
         paste0(
-          "TRUE=", info$nb_TRUE, ", ",
+          "TRUE=", info$nb_TRUE, ", \n",
           "FALSE=", info$nb_FALSE
         )
 
@@ -270,11 +270,11 @@ print.summary_context <- function(x, ...) {
 
   cat(paste0("\t", paste(info_line, collapse = "\t")), "\n")
 
-  cat("=====================================================\n")
+  cat("======================================================================\n")
 
   cat("\n")
-  cat("                   Résumé général\n")
-  cat("=====================================================\n")
+  cat("                        Résumé général\n")
+  cat("======================================================================\n")
   cat("Données manquantes :", x$nb_na, "\n")
 
   if (!is.null(x$llm_interpretation)) {

@@ -10,6 +10,9 @@
 ##' @param x_col Nom de la colonne numérique en abscisse.
 ##' @param y_col Nom de la colonne numérique en ordonnée.
 ##' @param instruction Contexte optionnel pour l'analyse (NULL par défaut).
+##' @param model Modèle LLM utilisé pour générer le contexte.
+##' @param temperature Température utilisée pour la génération du texte.
+##' @param seed Graine aléatoire pour la reproductibilité.
 ##'
 ##' @return Un objet de classe `scatterplot_context` avec statistiques,
 ##' corrélation, titre et interprétation.

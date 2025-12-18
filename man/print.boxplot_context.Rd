@@ -7,9 +7,9 @@
 \method{print}{boxplot_context}(x, ...)
 }
 \arguments{
-\item{x}{Un objet de classe boxplot_context}
+\item{x}{Un objet de classe boxplot_context.}
 
-\item{...}{Arguments supplémentaires (non utilisés)}
+\item{...}{Arguments supplémentaires (non utilisés).}
 }
 \description{
 Afficher l'interprétation d'un objet boxplot_context

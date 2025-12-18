@@ -7,16 +7,16 @@
 boxplot_context(data, x_col, y_col, context_description = NULL)
 }
 \arguments{
-\item{data}{Un data.frame contenant les données}
+\item{data}{Un data.frame contenant les données.}
 
-\item{x_col}{Nom de la colonne catégorielle (variable explicative)}
+\item{x_col}{Nom de la colonne catégorielle (variable explicative).}
 
-\item{y_col}{Nom de la colonne numérique (variable à analyser)}
+\item{y_col}{Nom de la colonne numérique (variable expliquée).}
 
-\item{context_description}{Contexte optionnel pour l'analyse (NULL par défaut)}
+\item{context_description}{Contexte optionnel pour l'analyse (NULL par défaut).}
 }
 \value{
-Un objet de classe boxplot_context
+Un objet de classe boxplot_context.
 }
 \description{
 Créer un boxplot enrichi avec analyse LLM

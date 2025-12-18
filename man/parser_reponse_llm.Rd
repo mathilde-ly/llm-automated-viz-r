@@ -7,10 +7,10 @@
 parser_reponse_llm(reponse_brute)
 }
 \arguments{
-\item{reponse_brute}{Chaîne de caractères JSON retournée par le LLM}
+\item{reponse_brute}{Chaîne de caractères JSON retournée par le LLM.}
 }
 \value{
-Une liste avec titre et paragraphe
+Une liste avec titre et paragraphe.
 }
 \description{
 Parser la réponse du LLM

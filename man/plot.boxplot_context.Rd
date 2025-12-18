@@ -7,12 +7,12 @@
 \method{plot}{boxplot_context}(x, ...)
 }
 \arguments{
-\item{x}{Un objet de classe boxplot_context}
+\item{x}{Un objet de classe boxplot_context.}
 
-\item{...}{Arguments supplémentaires passés à ggplot2}
+\item{...}{Arguments supplémentaires passés à ggplot2.}
 }
 \value{
-Un objet ggplot
+Un objet ggplot.
 }
 \description{
 Tracer le boxplot d'un objet boxplot_context

@@ -11,14 +11,14 @@ interroger_ollama(
 )
 }
 \arguments{
-\item{prompt}{Le prompt à envoyer au modèle}
+\item{prompt}{Le prompt à envoyer au modèle.}
 
-\item{model}{Nom du modèle (par défaut "mistral")}
+\item{model}{Nom du modèle (par défaut "mistral").}
 
-\item{endpoint}{URL de l'API Ollama (par défaut "http://localhost:11434")}
+\item{endpoint}{URL de l'API Ollama (par défaut "http://localhost:11434").}
 }
 \value{
-Une liste contenant titre et paragraphe
+Une liste contenant titre et paragraphe.
 }
 \description{
 Interroger l'API Ollama

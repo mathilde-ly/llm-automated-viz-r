@@ -7,14 +7,14 @@
 calculer_statistiques(data, x_col, y_col)
 }
 \arguments{
-\item{data}{Un data.frame}
+\item{data}{Le data.frame des données à plot.}
 
-\item{x_col}{Nom de la colonne de groupement}
+\item{x_col}{Nom de la colonne de groupement.}
 
-\item{y_col}{Nom de la colonne numérique}
+\item{y_col}{Nom de la colonne numérique.}
 }
 \value{
-Une liste contenant les statistiques par groupe
+Une liste contenant les statistiques par groupe.
 }
 \description{
 Calculer les statistiques descriptives par groupe

@@ -7,16 +7,16 @@
 construire_prompt(stats_summary, x_col, y_col, context_description)
 }
 \arguments{
-\item{stats_summary}{Liste des statistiques calculées}
+\item{stats_summary}{Liste des statistiques calculées.}
 
-\item{x_col}{Nom de la variable explicative}
+\item{x_col}{Nom de la variable explicative.}
 
-\item{y_col}{Nom de la variable à analyser}
+\item{y_col}{Nom de la variable expliquée.}
 
-\item{context_description}{Contexte optionnel}
+\item{context_description}{Contexte optionnel fourni par l'utilisateur (str).}
 }
 \value{
-Une chaîne de caractères contenant le prompt
+Une chaîne de caractères contenant le prompt.
 }
 \description{
 Construire le prompt pour le LLM

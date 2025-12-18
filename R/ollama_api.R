@@ -1,11 +1,11 @@
-#' Interroger l'API Ollama
-#'
-#' @param prompt Le prompt à envoyer au modèle
-#' @param model Nom du modèle (par défaut "mistral")
-#' @param endpoint URL de l'API Ollama (par défaut "http://localhost:11434")
-#'
-#' @return Une liste contenant titre et paragraphe
-#' @keywords internal
+##' Interroger l'API Ollama
+##'
+##' @param prompt Le prompt à envoyer au modèle.
+##' @param model Nom du modèle (par défaut "mistral").
+##' @param endpoint URL de l'API Ollama (par défaut "http://localhost:11434").
+##'
+##' @return Une liste contenant titre et paragraphe.
+##' @keywords internal
 interroger_ollama <- function(prompt,
                                model = "mistral",
                                endpoint = "http://localhost:11434") {
@@ -58,12 +58,12 @@ interroger_ollama <- function(prompt,
   })
 }
 
-#' Parser la réponse du LLM
-#'
-#' @param reponse_brute Chaîne de caractères JSON retournée par le LLM
-#'
-#' @return Une liste avec titre et paragraphe
-#' @keywords internal
+##' Parser la réponse du LLM
+##'
+##' @param reponse_brute Chaîne de caractères JSON retournée par le LLM.
+##'
+##' @return Une liste avec titre et paragraphe.
+##' @keywords internal
 parser_reponse_llm <- function(reponse_brute) {
   tryCatch({
     # Tentative de parsing JSON direct

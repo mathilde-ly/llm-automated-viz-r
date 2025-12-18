@@ -4,7 +4,7 @@
 \alias{construire_prompt}
 \title{Construire le prompt pour le LLM}
 \usage{
-construire_prompt(stats_summary, x_col, y_col, context_description)
+construire_prompt(stats_summary, x_col, y_col, instruction)
 }
 \arguments{
 \item{stats_summary}{Liste des statistiques calculées.}
@@ -13,7 +13,7 @@ construire_prompt(stats_summary, x_col, y_col, context_description)
 
 \item{y_col}{Nom de la variable expliquée.}
 
-\item{context_description}{Contexte optionnel fourni par l'utilisateur (str).}
+\item{instruction}{Contexte optionnel fourni par l'utilisateur (str).}
 }
 \value{
 Une chaîne de caractères contenant le prompt.

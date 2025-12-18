@@ -3,11 +3,11 @@
 ##' @param data Un data.frame contenant les données.
 ##' @param x_col Nom de la colonne catégorielle (variable explicative).
 ##' @param y_col Nom de la colonne numérique (variable expliquée).
-##' @param context_description Contexte optionnel pour l'analyse (NULL par défaut).
+##' @param instruction Contexte optionnel pour l'analyse (NULL par défaut).
 ##'
 ##' @return Un objet de classe boxplot_context.
 ##' @export
-boxplot_context <- function(data, x_col, y_col, context_description = NULL) {
+boxplot_context <- function(data, x_col, y_col, instruction = NULL) {
   # Validation des entrées
   if (!is.data.frame(data)) {
     stop("data doit être un data.frame")
@@ -47,7 +47,7 @@ boxplot_context <- function(data, x_col, y_col, context_description = NULL) {
   }
 
   # Construction du prompt pour le LLM
-  prompt <- construire_prompt(stats_summary, x_col, y_col, context_description)
+  prompt <- construire_prompt(stats_summary, x_col, y_col, instruction)
 
   # Appel au LLM Ollama
   reponse_llm <- interroger_ollama(prompt)
@@ -57,7 +57,7 @@ boxplot_context <- function(data, x_col, y_col, context_description = NULL) {
     data = data,
     x_col = x_col,
     y_col = y_col,
-    context_description = context_description,
+    instruction = instruction,
     statistiques = stats_summary,
     titre = reponse_llm$titre,
     interpretation = reponse_llm$paragraphe
@@ -126,11 +126,11 @@ calculer_statistiques <- function(data, x_col, y_col) {
 ##' @param stats_summary Liste des statistiques calculées.
 ##' @param x_col Nom de la variable explicative.
 ##' @param y_col Nom de la variable expliquée.
-##' @param context_description Contexte optionnel fourni par l'utilisateur (str).
+##' @param instruction Contexte optionnel fourni par l'utilisateur (str).
 ##'
 ##' @return Une chaîne de caractères contenant le prompt.
 ##' @keywords internal
-construire_prompt <- function(stats_summary, x_col, y_col, context_description) {
+construire_prompt <- function(stats_summary, x_col, y_col, instruction) {
   # Construction du résumé statistique textuel
   resume_stats <- paste0(
     "Statistiques descriptives pour la variable '", y_col,
@@ -153,7 +153,7 @@ construire_prompt <- function(stats_summary, x_col, y_col, context_description) 
   }
 
   # Construction du prompt selon le contexte
-  if (is.null(context_description)) {
+  if (is.null(instruction)) {
     prompt <- paste0(
       resume_stats,
       "En te basant uniquement sur ces statistiques, en français, génère:\n",
@@ -165,7 +165,7 @@ construire_prompt <- function(stats_summary, x_col, y_col, context_description) 
     )
   } else {
     prompt <- paste0(
-      "Contexte: ", context_description, "\n\n",
+      "Contexte: ", instruction, "\n\n",
       resume_stats,
       "En te basant sur ces statistiques ET le contexte fourni, génère:\n",
       "1. Un titre court et informatif pour le graphique (maximum 10 mots)\n",

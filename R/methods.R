@@ -1,11 +1,11 @@
 # ========== METHODES POUR BOXPLOT CONTEXT ==============
 
-#' Afficher l'interprétation d'un objet boxplot_context
-#'
-#' @param x Un objet de classe boxplot_context
-#' @param ... Arguments supplémentaires (non utilisés)
-#'
-#' @export
+##' Afficher l'interprétation d'un objet boxplot_context
+##'
+##' @param x Un objet de classe boxplot_context.
+##' @param ... Arguments supplémentaires (non utilisés).
+##'
+##' @export
 print.boxplot_context <- function(x, ...) {
   cat("\n")
   cat("========================================\n")
@@ -37,13 +37,13 @@ print.boxplot_context <- function(x, ...) {
   invisible(x)
 }
 
-#' Tracer le boxplot d'un objet boxplot_context
-#'
-#' @param x Un objet de classe boxplot_context
-#' @param ... Arguments supplémentaires passés à ggplot2
-#'
-#' @return Un objet ggplot
-#' @export
+##' Tracer le boxplot d'un objet boxplot_context
+##'
+##' @param x Un objet de classe boxplot_context.
+##' @param ... Arguments supplémentaires passés à ggplot2.
+##'
+##' @return Un objet ggplot.
+##' @export
 plot.boxplot_context <- function(x, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Le package ggplot2 est requis pour cette fonction.")
@@ -86,11 +86,11 @@ plot.boxplot_context <- function(x, ...) {
 # ======== METHODES POUR SCATTERPLOT CONTEXT ===================
 
 
-#' Méthode print pour scatterplot_context
-#'
-#' @param x Un objet de classe scatterplot_context
-#' @param ... Arguments supplémentaires (non utilisés)
-#' @export
+##' Méthode print pour scatterplot_context
+##'
+##' @param x Un objet de classe scatterplot_context.
+##' @param ... Arguments supplémentaires (non utilisés).
+##' @export
 print.scatterplot_context <- function(x, ...) {
   cat("\n")
   cat("========================================\n")
@@ -119,12 +119,13 @@ print.scatterplot_context <- function(x, ...) {
   invisible(x)
 }
 
-#' Méthode plot pour scatterplot_context
-#'
-#' @param x Un objet de classe scatterplot_context
-#' @param ... Arguments supplémentaires passés à ggplot2
-#' @return Un objet ggplot
-#' @export
+##' Méthode plot pour scatterplot_context
+##'
+##' @param x Un objet de classe scatterplot_context.
+##' @param ... Arguments supplémentaires passés à ggplot2.
+##'
+##' @return Un objet ggplot.
+##' @export
 plot.scatterplot_context <- function(x, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Le package ggplot2 est requis pour cette fonction.")
@@ -150,8 +151,14 @@ plot.scatterplot_context <- function(x, ...) {
 }
 
 
-# ======== METHODES POUR SUMMARY CONTEXT ===================
+## ======== METHODES POUR SUMMARY CONTEXT ===================
 
+##' Afficher le résumé d'un objet summary_context
+##'
+##' @param x Un objet de classe summary_context.
+##' @param ... Arguments supplémentaires (non utilisés).
+##'
+##' @export
 print.summary_context <- function(x, ...) {
 
   cat("\n")

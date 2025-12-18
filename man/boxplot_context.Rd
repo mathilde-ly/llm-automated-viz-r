@@ -4,7 +4,7 @@
 \alias{boxplot_context}
 \title{Créer un boxplot enrichi avec analyse LLM}
 \usage{
-boxplot_context(data, x_col, y_col, context_description = NULL)
+boxplot_context(data, x_col, y_col, instruction = NULL)
 }
 \arguments{
 \item{data}{Un data.frame contenant les données.}
@@ -13,7 +13,7 @@ boxplot_context(data, x_col, y_col, context_description = NULL)
 
 \item{y_col}{Nom de la colonne numérique (variable expliquée).}
 
-\item{context_description}{Contexte optionnel pour l'analyse (NULL par défaut).}
+\item{instruction}{Contexte optionnel pour l'analyse (NULL par défaut).}
 }
 \value{
 Un objet de classe boxplot_context.

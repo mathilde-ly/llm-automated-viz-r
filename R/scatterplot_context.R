@@ -4,11 +4,12 @@
 ##' @param data Un data.frame contenant les données.
 ##' @param x_col Nom de la colonne numérique en abscisse.
 ##' @param y_col Nom de la colonne numérique en ordonnée.
-##' @param context_description Contexte optionnel pour l'analyse (NULL par défaut).
+##' @param instruction Contexte optionnel pour l'analyse (NULL par défaut).
 ##'
 ##' @return Un objet de classe scatterplot_context.
 ##' @export
-scatterplot_context <- function(data, x_col, y_col, context_description = NULL) {
+scatterplot_context <- function(data, x_col, y_col, instruction = NULL,
+							   model = "mistral", temperature = NULL, seed = NULL) {
 	# Validation des entrées
 	if (!is.data.frame(data)) {
 		stop("data doit être un data.frame")
@@ -38,22 +39,25 @@ scatterplot_context <- function(data, x_col, y_col, context_description = NULL) 
 	cor_xy <- suppressWarnings(cor(data[[x_col]], data[[y_col]], use = "complete.obs"))
 
 	# Construction du prompt pour le LLM
-	prompt <- construire_prompt_scatter(stats_x, stats_y, cor_xy, x_col, y_col, context_description)
+	prompt <- construire_prompt_scatter(stats_x, stats_y, cor_xy, x_col, y_col, instruction)
 
 	# Appel au LLM Ollama
-	reponse_llm <- interroger_ollama(prompt)
+	reponse_llm <- interroger_ollama(prompt, model = model, temperature = temperature, seed = seed)
 
 	# Construction de l'objet S3
 	resultat <- list(
 		data = data,
 		x_col = x_col,
 		y_col = y_col,
-		context_description = context_description,
+		instruction = instruction,
 		stats_x = stats_x,
 		stats_y = stats_y,
 		cor_xy = cor_xy,
 		titre = reponse_llm$titre,
-		interpretation = reponse_llm$paragraphe
+		interpretation = reponse_llm$paragraphe,
+		llm_model = model,
+		llm_temperature = temperature,
+		llm_seed = seed
 	)
 	class(resultat) <- "scatterplot_context"
 	return(resultat)
@@ -66,18 +70,18 @@ scatterplot_context <- function(data, x_col, y_col, context_description = NULL) 
 ##' @param cor_xy Corrélation entre x et y.
 ##' @param x_col Nom de la variable x.
 ##' @param y_col Nom de la variable y.
-##' @param context_description Contexte optionnel fourni par l'utilisateur.
+##' @param instruction Contexte optionnel fourni par l'utilisateur.
 ##'
 ##' @return Une chaîne de caractères contenant le prompt.
 ##' @keywords internal
-construire_prompt_scatter <- function(stats_x, stats_y, cor_xy, x_col, y_col, context_description) {
+construire_prompt_scatter <- function(stats_x, stats_y, cor_xy, x_col, y_col, instruction) {
 	resume_stats <- paste0(
 		"Statistiques descriptives :\n",
 		"- ", x_col, " : min=", round(stats_x[["Min."]], 2), ", max=", round(stats_x[["Max."]], 2), ", moy=", round(stats_x[["Mean"]], 2), ", médiane=", round(stats_x[["Median"]], 2), "\n",
 		"- ", y_col, " : min=", round(stats_y[["Min."]], 2), ", max=", round(stats_y[["Max."]], 2), ", moy=", round(stats_y[["Mean"]], 2), ", médiane=", round(stats_y[["Median"]], 2), "\n",
 		"Corrélation (Pearson) entre ", x_col, " et ", y_col, " : ", round(cor_xy, 3), "\n"
 	)
-	if (is.null(context_description)) {
+	if (is.null(instruction)) {
 		prompt <- paste0(
 			resume_stats,
 			"En te basant uniquement sur ces statistiques, en français, génère :\n",
@@ -88,7 +92,7 @@ construire_prompt_scatter <- function(stats_x, stats_y, cor_xy, x_col, y_col, co
 		)
 	} else {
 		prompt <- paste0(
-			"Contexte : ", context_description, "\n\n",
+			"Contexte : ", instruction, "\n\n",
 			resume_stats,
 			"En te basant sur ces statistiques ET le contexte fourni, génère :\n",
 			"1. Un titre court et informatif pour le graphique (max 10 mots)\n",

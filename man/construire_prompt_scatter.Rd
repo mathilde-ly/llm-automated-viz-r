@@ -4,14 +4,7 @@
 \alias{construire_prompt_scatter}
 \title{Construire le prompt pour le LLM (scatterplot)}
 \usage{
-construire_prompt_scatter(
-  stats_x,
-  stats_y,
-  cor_xy,
-  x_col,
-  y_col,
-  context_description
-)
+construire_prompt_scatter(stats_x, stats_y, cor_xy, x_col, y_col, instruction)
 }
 \arguments{
 \item{stats_x}{Résumé statistique de x.}
@@ -24,7 +17,7 @@ construire_prompt_scatter(
 
 \item{y_col}{Nom de la variable y.}
 
-\item{context_description}{Contexte optionnel fourni par l'utilisateur.}
+\item{instruction}{Contexte optionnel fourni par l'utilisateur.}
 }
 \value{
 Une chaîne de caractères contenant le prompt.

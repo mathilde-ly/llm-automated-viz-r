@@ -7,7 +7,7 @@ interprétation automatique par un LLM local (Ollama). Il facilite l'analyse sta
 à des résumés et commentaires générés automatiquement.
 
 Cette version du package est fonctionnelle mais en cours de développement. De nouvelles fonctionnalités et types de graphiques sont
-en cours de développement, restez branchés :D
+en cours de développement.
 
 ## Comment ça fonctionne ?
 
